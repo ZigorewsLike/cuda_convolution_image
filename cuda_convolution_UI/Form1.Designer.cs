@@ -66,20 +66,26 @@ namespace cuda_convolution_UI
             this.btnU.TabIndex = 1;
             this.btnU.Text = "Загрузить пикчу";
             this.btnU.UseVisualStyleBackColor = true;
+            this.btnU.Click += new System.EventHandler(this.btnU_Click);
             // 
             // pbOriginal
             // 
+            this.pbOriginal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbOriginal.Location = new System.Drawing.Point(2, 53);
             this.pbOriginal.Name = "pbOriginal";
             this.pbOriginal.Size = new System.Drawing.Size(460, 422);
+            this.pbOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbOriginal.TabIndex = 2;
             this.pbOriginal.TabStop = false;
+            this.pbOriginal.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.pbOriginal_LoadCompleted);
             // 
             // pbResault
             // 
+            this.pbResault.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbResault.Location = new System.Drawing.Point(485, 53);
             this.pbResault.Name = "pbResault";
             this.pbResault.Size = new System.Drawing.Size(460, 422);
+            this.pbResault.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbResault.TabIndex = 3;
             this.pbResault.TabStop = false;
             // 

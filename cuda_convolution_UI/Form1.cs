@@ -24,5 +24,27 @@ namespace cuda_convolution_UI
                 MessageBox.Show("Not CUDA supporting", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnU_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    pbOriginal.ImageLocation = dialog.FileName;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Not load image", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void pbOriginal_LoadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            lblImgWidth.Text = "width: " + pbOriginal.Image.Width + " height: " + pbOriginal.Image.Height;
+        }
     }
 }
