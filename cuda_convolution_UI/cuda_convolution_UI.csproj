@@ -81,6 +81,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "F:\Proj\VSCPP\CUDA\test\Cuda_dlll\x64\Debug\Cuda_dlll.dll" "$(TargetDir)cudaFanc64.dll"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(SolutionDir)x64\Debug\kernel_to_dll.dll" "$(TargetDir)cudaFanc64.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>
