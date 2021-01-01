@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cuda_convolution_image", "cuda_convolution_image\cuda_convolution_image.vcxproj", "{2405AABE-B67C-4327-9245-D8CC9DEB7F05}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kernel_to_dll", "kernel_to_dll\kernel_to_dll.vcxproj", "{A44820E8-79F9-4529-9CD3-FC42F5BA662A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cuda_convolution_UI", "cuda_convolution_UI\cuda_convolution_UI.csproj", "{335BBC03-3EE3-4B24-BC66-A41B0E57141F}"
@@ -17,6 +19,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Debug|x64.ActiveCfg = Debug|x64
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Debug|x64.Build.0 = Debug|x64
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Debug|x86.ActiveCfg = Debug|Win32
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Debug|x86.Build.0 = Debug|Win32
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Release|x64.ActiveCfg = Release|x64
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Release|x64.Build.0 = Release|x64
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Release|x86.ActiveCfg = Release|Win32
+		{2405AABE-B67C-4327-9245-D8CC9DEB7F05}.Release|x86.Build.0 = Release|Win32
 		{A44820E8-79F9-4529-9CD3-FC42F5BA662A}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{A44820E8-79F9-4529-9CD3-FC42F5BA662A}.Debug|x64.ActiveCfg = Debug|x64
 		{A44820E8-79F9-4529-9CD3-FC42F5BA662A}.Debug|x64.Build.0 = Debug|x64
