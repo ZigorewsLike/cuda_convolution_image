@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
-
+using System.Threading;
+using System.Drawing.Imaging;
 
 namespace cuda_convolution_UI
 {
@@ -24,8 +24,9 @@ namespace cuda_convolution_UI
         private int image_width;
         private int image_height;
         private List<NumericUpDown> numud_list = new List<NumericUpDown>();
-        private const int default_cach = 128;
+        private const int default_cach = 144;
         private int cache_size = default_cach;
+        public ImagePix unlock_img = new ImagePix(1, 1);
         public Form1()
         {
             InitializeComponent();
@@ -67,10 +68,16 @@ namespace cuda_convolution_UI
             }
         }
 
-        public async void apply_conv_matrix(int[] conv_array, Bitmap img)
+        /// <summary>
+        /// Применение свёртки к изображению
+        /// </summary>
+        /// <param name="conv_array">Массив Flatten матрицы свёртки</param>
+        /// <param name="img">Массив Flatten изображения</param>
+        public ImagePix apply_conv_matrix(int[] conv_array, ImagePix img)
         {
             Stopwatch stopWatch2 = new Stopwatch();
             stopWatch2.Start();
+            ImagePix new_img = new ImagePix(image_width, image_height);
             for (int chl = 0; chl < 3; chl++)
             {
                 for (int new_height = cache_size; new_height < image_height + cache_size - 1; new_height += cache_size)
@@ -81,7 +88,6 @@ namespace cuda_convolution_UI
                     {
                         if (new_width > image_width) new_width = image_width;
                         //MessageBox.Show(new_width.ToString());
-
                         int[] img_array = new int[cache_size * cache_size];
 
                         for (int i = new_width - cache_size; i < new_width; i++)
@@ -109,10 +115,10 @@ namespace cuda_convolution_UI
                                 for (int j = (new_height - 1) / cache_size * cache_size; j < new_height; j++)
                                 {
                                     int r = res[i % cache_size * cache_size + (j % cache_size)];
-                                    Color cl = img.GetPixel(i, j);
-                                    if (chl == 0) img.SetPixel(i, j, Color.FromArgb(r, cl.G, cl.B));
-                                    else if (chl == 1) img.SetPixel(i, j, Color.FromArgb(cl.R, r, cl.B));
-                                    else img.SetPixel(i, j, Color.FromArgb(cl.R, cl.G, r));
+                                    Color cl = new_img.GetPixel(i, j);
+                                    if (chl == 0) new_img.SetPixel(i, j, Color.FromArgb(r, cl.G, cl.B));
+                                    else if (chl == 1) new_img.SetPixel(i, j, Color.FromArgb(cl.R, r, cl.B));
+                                    else new_img.SetPixel(i, j, Color.FromArgb(cl.R, cl.G, r));
                                 }
                             }
                         }
@@ -138,26 +144,32 @@ namespace cuda_convolution_UI
             lblLoading.Visible = false;
             btnAply.Enabled = true;
             this.Update();
+            return new_img;
         }
 
         private void pbOriginal_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            unlock_img.Dispose();
+            
+            lblPreLoading.Visible = true;
+            lblPreLoading.Text = "ЗАГРУЗКА ...";
+            stFooterChild2.Text = "satus: img loading";
+            this.Update();
             btnAply.Enabled = true;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             lblImgWidth.Text = "width: " + pbOriginal.Image.Width + " height: " + pbOriginal.Image.Height;
             image_width = pbOriginal.Image.Width;
             image_height = pbOriginal.Image.Height;
+
+            unlock_img = new ImagePix(image_width, image_height);
+
             if (image_height < cache_size || image_width < cache_size)
             {
                 cache_size = Math.Min(image_height, image_width);
             }
             else if (cache_size != default_cach) cache_size = default_cach;
-            stFooterChild2.Text = "satus: img load - OK";
-            stopWatch.Stop();
-            TimeSpan ts = stopWatch.Elapsed;
-            stFooterChild3.Text = "time load img: " + (ts.Milliseconds).ToString() + "ms";
-            
+
             //int[] conv_array = new int[9] { 1, 0, -1, 2, 0, -2, 1, 0, -1 };                                                     // Прикольный фильтер Собеля
             //int[] conv_array = new int[9] { -2, -1, 0, -1, 1, 1, 0, 1, 2 };                                                     // Тиснение
             //int[] conv_array = new int[25] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 };       // пацанское размытие
@@ -167,11 +179,29 @@ namespace cuda_convolution_UI
             Bitmap img = new Bitmap(pbOriginal.Image);
             //apply_conv_matrix(conv_array, img);
             pbResault.Image = img;
+            lblPreLoading.Text = "ПОДГОТОВКА ...";
+            this.Update();
+            for (int new_height = 0; new_height < image_height; new_height += 1)
+            {
+
+                for (int new_width = 0; new_width < image_width; new_width += 1)
+                {
+                    unlock_img.SetPixel(new_width, new_height, img.GetPixel(new_width, new_height));
+                }
+            }
+            Console.WriteLine(unlock_img.GetPixel(4, 4).R + "; " + unlock_img.width);
+            lblPreLoading.Visible = false;
+            stFooterChild2.Text = "satus: img load - OK";
+            this.Update();
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            stFooterChild3.Text = "time load img: " + (ts.Seconds * 1000 + ts.Milliseconds).ToString() + "ms";
+            //img.Dispose();
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
         {
-            pbOriginal.Width = this.Width / 2 - 40;
+            lblPreLoading.Width = pbOriginal.Width = this.Width / 2 - 40;
             pbOriginal.Height = this.Height - 120 - panel1.Height;
             lblLoading.Left = pbResault.Left = this.Width / 2 + 20;
             lblLoading.Width =  pbResault.Width = this.Width / 2 - 40;
@@ -180,7 +210,7 @@ namespace cuda_convolution_UI
             btnAply.Left = this.Width / 2 - 27;
             btnAply.Top = pbOriginal.Height / 2 + pbOriginal.Top - (btnAply.Height / 2);
             panel1.Top = this.Height - panel1.Height - 70;
-            lblLoading.Top = pbOriginal.Height / 2 + pbOriginal.Top - (lblLoading.Height / 2);
+            lblPreLoading.Top = lblLoading.Top = pbOriginal.Height / 2 + pbOriginal.Top - (lblLoading.Height / 2);
         }
 
         private void pbResault_MouseMove(object sender, MouseEventArgs e)
@@ -207,6 +237,7 @@ namespace cuda_convolution_UI
                     numbUD.Width = 45;
                     numbUD.Minimum = -numbUD.Maximum;
                     numbUD.Left = (numbUD.Width + 20) * j;
+                    if (i == (val / 2) && j == (val / 2) && val % 2 == 1) numbUD.Value = 1;
                     numud_list.Add(numbUD);
                     this.panel1.Controls.Add(numbUD);
                 }
@@ -224,9 +255,54 @@ namespace cuda_convolution_UI
             {
                 conv_matrix[i] = (int)numud_list.ElementAt(i).Value;
             }
-            Bitmap img = new Bitmap(pbOriginal.Image);
-            apply_conv_matrix(conv_matrix, img);
-            pbResault.Image = img;
+            //Bitmap img = new Bitmap(pbOriginal.Image);
+            ImagePix n_img =  apply_conv_matrix(conv_matrix, unlock_img);
+            pbResault.Image = n_img.bitmap;
+            //img.Dispose();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+    }
+    /// <summary>
+    /// Класс разблокированного изображения с быстрым доступом к пикселям
+    /// </summary>
+    public class ImagePix : IDisposable
+    {
+        public Bitmap bitmap { get; private set; }
+        public Int32[] bits { get; private set; }
+        public int height { get; private set; }
+        public int width { get; private set; }
+        public bool disposed { get; private set; }
+        protected GCHandle bits_handle { get; private set; }
+
+        public ImagePix(int _width, int _height)
+        {
+            width = _width;
+            height = _height;
+            bits = new Int32[width * height];
+            bits_handle = GCHandle.Alloc(bits, GCHandleType.Pinned);
+            bitmap = new Bitmap(width, height, width * 4, PixelFormat.Format32bppPArgb, bits_handle.AddrOfPinnedObject());
+        }
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposed = true;
+            bitmap.Dispose();
+            bits_handle.Free();
+        }
+        public void SetPixel(int x, int y, Color color)
+        {
+            int ind = x + (y * width);
+            bits[ind] = color.ToArgb();
+
+        }
+        public Color GetPixel(int x, int y)
+        {
+            int ind = x + (y * width);
+            return Color.FromArgb(bits[ind]);
         }
     }
 }

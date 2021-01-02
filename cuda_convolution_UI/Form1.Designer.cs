@@ -30,20 +30,21 @@ namespace cuda_convolution_UI
         private void InitializeComponent()
         {
             this.stFooter = new System.Windows.Forms.StatusStrip();
-            this.btnU = new System.Windows.Forms.Button();
-            this.pbOriginal = new System.Windows.Forms.PictureBox();
-            this.pbResault = new System.Windows.Forms.PictureBox();
-            this.lblImgWidth = new System.Windows.Forms.Label();
             this.stFooterChild1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stFooterChild2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stFooterChild3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stFooterChild4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stFooterChild5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnU = new System.Windows.Forms.Button();
+            this.pbOriginal = new System.Windows.Forms.PictureBox();
+            this.pbResault = new System.Windows.Forms.PictureBox();
+            this.lblImgWidth = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.nudConvSize = new System.Windows.Forms.NumericUpDown();
             this.lblform = new System.Windows.Forms.Label();
             this.btnAply = new System.Windows.Forms.Button();
             this.lblLoading = new System.Windows.Forms.Label();
+            this.lblPreLoading = new System.Windows.Forms.Label();
             this.stFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbResault)).BeginInit();
@@ -65,6 +66,36 @@ namespace cuda_convolution_UI
             this.stFooter.SizingGrip = false;
             this.stFooter.TabIndex = 0;
             this.stFooter.Text = "statusStrip1";
+            // 
+            // stFooterChild1
+            // 
+            this.stFooterChild1.Name = "stFooterChild1";
+            this.stFooterChild1.Size = new System.Drawing.Size(89, 17);
+            this.stFooterChild1.Text = "Cuda devices: 0";
+            // 
+            // stFooterChild2
+            // 
+            this.stFooterChild2.Name = "stFooterChild2";
+            this.stFooterChild2.Size = new System.Drawing.Size(66, 17);
+            this.stFooterChild2.Text = "status: chill";
+            // 
+            // stFooterChild3
+            // 
+            this.stFooterChild3.Name = "stFooterChild3";
+            this.stFooterChild3.Size = new System.Drawing.Size(88, 17);
+            this.stFooterChild3.Text = "time load: 0 ms";
+            // 
+            // stFooterChild4
+            // 
+            this.stFooterChild4.Name = "stFooterChild4";
+            this.stFooterChild4.Size = new System.Drawing.Size(82, 17);
+            this.stFooterChild4.Text = "time edit 0 ms";
+            // 
+            // stFooterChild5
+            // 
+            this.stFooterChild5.Name = "stFooterChild5";
+            this.stFooterChild5.Size = new System.Drawing.Size(74, 17);
+            this.stFooterChild5.Text = "mouse pos 0";
             // 
             // btnU
             // 
@@ -107,36 +138,6 @@ namespace cuda_convolution_UI
             this.lblImgWidth.TabIndex = 4;
             this.lblImgWidth.Text = "width: 0 height: 0";
             // 
-            // stFooterChild1
-            // 
-            this.stFooterChild1.Name = "stFooterChild1";
-            this.stFooterChild1.Size = new System.Drawing.Size(89, 17);
-            this.stFooterChild1.Text = "Cuda devices: 0";
-            // 
-            // stFooterChild2
-            // 
-            this.stFooterChild2.Name = "stFooterChild2";
-            this.stFooterChild2.Size = new System.Drawing.Size(66, 17);
-            this.stFooterChild2.Text = "status: chill";
-            // 
-            // stFooterChild3
-            // 
-            this.stFooterChild3.Name = "stFooterChild3";
-            this.stFooterChild3.Size = new System.Drawing.Size(88, 17);
-            this.stFooterChild3.Text = "time load: 0 ms";
-            // 
-            // stFooterChild4
-            // 
-            this.stFooterChild4.Name = "stFooterChild4";
-            this.stFooterChild4.Size = new System.Drawing.Size(82, 17);
-            this.stFooterChild4.Text = "time edit 0 ms";
-            // 
-            // stFooterChild5
-            // 
-            this.stFooterChild5.Name = "stFooterChild5";
-            this.stFooterChild5.Size = new System.Drawing.Size(74, 17);
-            this.stFooterChild5.Text = "mouse pos 0";
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.nudConvSize);
@@ -172,7 +173,7 @@ namespace cuda_convolution_UI
             // lblform
             // 
             this.lblform.AutoSize = true;
-            this.lblform.Location = new System.Drawing.Point(0, 5);
+            this.lblform.Location = new System.Drawing.Point(1, 5);
             this.lblform.Name = "lblform";
             this.lblform.Size = new System.Drawing.Size(167, 13);
             this.lblform.TabIndex = 10;
@@ -201,11 +202,24 @@ namespace cuda_convolution_UI
             this.lblLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblLoading.Visible = false;
             // 
+            // lblPreLoading
+            // 
+            this.lblPreLoading.BackColor = System.Drawing.Color.White;
+            this.lblPreLoading.Font = new System.Drawing.Font("Microsoft Sans Serif", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPreLoading.Location = new System.Drawing.Point(1, 199);
+            this.lblPreLoading.Name = "lblPreLoading";
+            this.lblPreLoading.Size = new System.Drawing.Size(459, 52);
+            this.lblPreLoading.TabIndex = 13;
+            this.lblPreLoading.Text = "ЗАГРУЗКА ...";
+            this.lblPreLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPreLoading.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 779);
+            this.Controls.Add(this.lblPreLoading);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnAply);
             this.Controls.Add(this.panel1);
@@ -214,10 +228,11 @@ namespace cuda_convolution_UI
             this.Controls.Add(this.pbOriginal);
             this.Controls.Add(this.btnU);
             this.Controls.Add(this.stFooter);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimumSize = new System.Drawing.Size(600, 550);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_ClientSizeChanged);
             this.ClientSizeChanged += new System.EventHandler(this.Form1_ClientSizeChanged);
             this.stFooter.ResumeLayout(false);
             this.stFooter.PerformLayout();
@@ -248,6 +263,7 @@ namespace cuda_convolution_UI
         private System.Windows.Forms.Label lblform;
         private System.Windows.Forms.Button btnAply;
         private System.Windows.Forms.Label lblLoading;
+        private System.Windows.Forms.Label lblPreLoading;
     }
 }
 

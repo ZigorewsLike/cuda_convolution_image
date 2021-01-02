@@ -28,12 +28,16 @@ __global__ void add_vector(unsigned int* img, int* conv, unsigned int* c, int N,
             int x = tid_x % N - cN / 2 + i % cN;
             int y = tid_x / N - cN / 2 + i / cN;
             int thr_x = -5;
-            if (x >= 0 && x < N && y >= 0 && y < N) {
-                d += conv[i];
+            d += conv[i];
+            if (x >= -1 && x <= N && y >= -1 && y <= M) {
+                if (x == -1) x = 0;
+                else if (x == N) x = N - 1;
+                if (y == -1) y = 0;
+                else if (y == M) y = M - 1;
                 thr_x = x + y * N;
                 sum += conv[i] * img[thr_x];
             }
-            //if (i == 1)
+            //if (i == 0)
             //    printf("imgx = %i, tid_x = %i, imgy = %i\n x = %i, tid_x = %i, new_tid_x = %i, y = %i\n Sum = %i img = %i conv = %i\n--\n", img_x, tid_x, img_y, x, tid_x, thr_x, y, sum, img[thr_x], conv[i]);
         }
         if (d != 0) sum /= abs(d);
