@@ -29,11 +29,11 @@ __global__ void add_vector(unsigned int* img, int* conv, unsigned int* c, int N,
             int y = tid_x / N - cN / 2 + i / cN;
             int thr_x = -5;
             d += conv[i];
-            if (x >= -1 && x <= N && y >= -1 && y <= M) {
-                if (x == -1) x = 0;
-                else if (x == N) x = N - 1;
-                if (y == -1) y = 0;
-                else if (y == M) y = M - 1;
+            if (x >= -(cN/2) && x <= (N-1)+(cN/2) && y >= -(cN / 2) && y <= (M - 1) + (cN / 2)) {
+                if (x <= -1) x = 0;
+                else if (x >= N) x = N - 1;
+                if (y <= -1) y = 0;
+                else if (y >= M) y = M - 1;
                 thr_x = x + y * N;
                 sum += conv[i] * img[thr_x];
             }
@@ -51,7 +51,7 @@ __global__ void add_vector(unsigned int* img, int* conv, unsigned int* c, int N,
 DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, int* conv, int cN) {
     int cuda_count;
     cudaGetDeviceCount(&cuda_count);
-    printf("Cuda device count = %i\n", cuda_count);
+    //printf("Cuda device count = %i\n", cuda_count);
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
@@ -61,7 +61,7 @@ DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, in
     unsigned int* c = new unsigned int[N * M];
 
     if (cuda_count == 0) {
-        cout << "Cuda device not found!";
+        //cout << "Cuda device not found!";
         return NULL;
     }
     cudaDeviceProp info;
@@ -72,7 +72,7 @@ DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, in
     }
     unsigned int maxCudaBlocks = (N * M + maxCudaTreads - 1) / maxCudaTreads;
 
-    printf("N = %i M = %i\n threads: %i blocks: %i\n", N, M, maxCudaTreads, maxCudaBlocks);
+    //printf("N = %i M = %i\n threads: %i blocks: %i\n", N, M, maxCudaTreads, maxCudaBlocks);
 
     unsigned int* dev_a;
     int* dev_b;
@@ -101,7 +101,7 @@ DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, in
     cudaFree(dev_b);
     cudaFree(dev_c);
 
-    printf(" time (gpu)= %f mm.\n Calc %i elem\n", g_time, N * M);
+    //printf(" time (gpu)= %f mm.\n Calc %i elem\n", g_time, N * M);
     return c;
 }
 

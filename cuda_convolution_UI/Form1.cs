@@ -171,14 +171,7 @@ namespace cuda_convolution_UI
             }
             else if (cache_size != default_cach) cache_size = default_cach;
 
-            //int[] conv_array = new int[9] { 1, 0, -1, 2, 0, -2, 1, 0, -1 };                                                     // Прикольный фильтер Собеля
-            //int[] conv_array = new int[9] { -2, -1, 0, -1, 1, 1, 0, 1, 2 };                                                     // Тиснение
-            //int[] conv_array = new int[25] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 };       // пацанское размытие
-            //int[] conv_array = new int[25] { 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, -1, 5, -1, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0 };   // резкость
-            //int[] conv_array = new int[9] { 0, 1, 0, 1, -4, 1, 0, 1, 0 };                                                       // Хорошо выраженные края
-
             Bitmap img = new Bitmap(pbOriginal.Image);
-            //apply_conv_matrix(conv_array, img);
             pbResault.Image = img;
             lblPreLoading.Text = "ПОДГОТОВКА ...";
             this.Update();
@@ -197,7 +190,6 @@ namespace cuda_convolution_UI
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
             stFooterChild3.Text = "time load img: " + (ts.Seconds * 1000 + ts.Milliseconds).ToString() + "ms";
-            //img.Dispose();
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
@@ -210,7 +202,7 @@ namespace cuda_convolution_UI
             
             btnAply.Left = this.Width / 2 - 27;
             btnAply.Top = pbOriginal.Height / 2 + pbOriginal.Top - (btnAply.Height / 2);
-            panel1.Top = this.Height - panel1.Height - 70;
+            panel2.Top = panel1.Top = this.Height - panel1.Height - 70;
             lblPreLoading.Top = lblLoading.Top = pbOriginal.Height / 2 + pbOriginal.Top - (lblLoading.Height / 2);
         }
 
@@ -277,6 +269,70 @@ namespace cuda_convolution_UI
             catch (Exception)
             {
                 MessageBox.Show("Not load image", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Генерация примера по массиву
+        /// </summary>
+        /// <param name="conv_array">Матрицы Flatten свёртки</param>
+        public void generate_conv(int[] conv_array)
+        {
+            int val = (int)Math.Sqrt(conv_array.Length);
+            nudConvSize.Value = val;
+            for (int i = 0; i < val * val; i++)
+            {
+                numud_list.ElementAt(i).Value = conv_array[i];
+            }
+        }
+
+        private void lblExample1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            generate_conv(new int[9] { 1, 0, -1, 2, 0, -2, 1, 0, -1 });
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            generate_conv(new int[9] { -2, -1, 0, -1, 1, 1, 0, 1, 2 });
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            //generate_conv(new int[25] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 });
+            generate_conv(new int[25] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            generate_conv(new int[25] { 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, -1, 5, -1, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0 });
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            generate_conv(new int[9] { 0, 1, 0, 1, -4, 1, 0, 1, 0 });
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            int val = (int)nudConvSize.Value;
+            numud_list.ForEach(delegate (NumericUpDown numbUD) {
+                this.panel1.Controls.Remove(numbUD);
+            });
+            numud_list.Clear();
+
+            for (int i = 0; i < val; i++)
+            {
+                for (int j = 0; j < val; j++)
+                {
+                    NumericUpDown numbUD = new NumericUpDown();
+                    numbUD.Top = i * 20 + 25;
+                    numbUD.Width = 45;
+                    numbUD.Minimum = -numbUD.Maximum;
+                    numbUD.Left = (numbUD.Width + 20) * j;
+                    if (i == (val / 2) && j == (val / 2) && val % 2 == 1) numbUD.Value = 1;
+                    numud_list.Add(numbUD);
+                    this.panel1.Controls.Add(numbUD);
+                }
             }
         }
     }

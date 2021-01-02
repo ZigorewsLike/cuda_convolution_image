@@ -46,11 +46,20 @@ namespace cuda_convolution_UI
             this.lblLoading = new System.Windows.Forms.Label();
             this.lblPreLoading = new System.Windows.Forms.Label();
             this.btn_Save = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lblExample1 = new System.Windows.Forms.LinkLabel();
+            this.lblExampleLabel = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
             this.stFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbResault)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudConvSize)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // stFooter
@@ -141,11 +150,12 @@ namespace cuda_convolution_UI
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnClear);
             this.panel1.Controls.Add(this.nudConvSize);
             this.panel1.Controls.Add(this.lblform);
             this.panel1.Location = new System.Drawing.Point(12, 463);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(637, 268);
+            this.panel1.Size = new System.Drawing.Size(609, 268);
             this.panel1.TabIndex = 8;
             // 
             // nudConvSize
@@ -225,11 +235,109 @@ namespace cuda_convolution_UI
             this.btn_Save.UseVisualStyleBackColor = true;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.linkLabel4);
+            this.panel2.Controls.Add(this.linkLabel3);
+            this.panel2.Controls.Add(this.linkLabel2);
+            this.panel2.Controls.Add(this.linkLabel1);
+            this.panel2.Controls.Add(this.lblExample1);
+            this.panel2.Controls.Add(this.lblExampleLabel);
+            this.panel2.Location = new System.Drawing.Point(627, 463);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(307, 268);
+            this.panel2.TabIndex = 15;
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel4.Location = new System.Drawing.Point(12, 110);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(156, 13);
+            this.linkLabel4.TabIndex = 5;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "♦ Хорошо выраженные края";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel3.Location = new System.Drawing.Point(12, 88);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(69, 13);
+            this.linkLabel3.TabIndex = 4;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "♦ Резкость";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel2.Location = new System.Drawing.Point(12, 66);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(112, 13);
+            this.linkLabel2.TabIndex = 3;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "♦ Слабое размытие";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.Black;
+            this.linkLabel1.Location = new System.Drawing.Point(12, 44);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(64, 13);
+            this.linkLabel1.TabIndex = 2;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "♦ Тисение";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // lblExample1
+            // 
+            this.lblExample1.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.lblExample1.AutoSize = true;
+            this.lblExample1.LinkColor = System.Drawing.Color.Black;
+            this.lblExample1.Location = new System.Drawing.Point(12, 22);
+            this.lblExample1.Name = "lblExample1";
+            this.lblExample1.Size = new System.Drawing.Size(101, 13);
+            this.lblExample1.TabIndex = 1;
+            this.lblExample1.TabStop = true;
+            this.lblExample1.Text = "♦ Фильтр Собеля";
+            this.lblExample1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblExample1_LinkClicked);
+            // 
+            // lblExampleLabel
+            // 
+            this.lblExampleLabel.AutoSize = true;
+            this.lblExampleLabel.Location = new System.Drawing.Point(4, 5);
+            this.lblExampleLabel.Name = "lblExampleLabel";
+            this.lblExampleLabel.Size = new System.Drawing.Size(55, 13);
+            this.lblExampleLabel.TabIndex = 0;
+            this.lblExampleLabel.Text = "Примеры";
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(242, 1);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 11;
+            this.btnClear.Text = "Отчистить";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 779);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.lblPreLoading);
             this.Controls.Add(this.lblLoading);
@@ -253,6 +361,8 @@ namespace cuda_convolution_UI
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudConvSize)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -277,6 +387,14 @@ namespace cuda_convolution_UI
         private System.Windows.Forms.Label lblLoading;
         private System.Windows.Forms.Label lblPreLoading;
         private System.Windows.Forms.Button btn_Save;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.LinkLabel lblExample1;
+        private System.Windows.Forms.Label lblExampleLabel;
+        private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 
