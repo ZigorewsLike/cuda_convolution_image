@@ -23,8 +23,8 @@ __global__ void add_vector(unsigned int* img, int* conv, unsigned int* c, int N,
         int sum = 0;
         int d = 0; // d Normal
         for (int i = 0; i < cN * cN; i++) {
-            int img_x = tid_x % N;
-            int img_y = tid_x / N;
+            //int img_x = tid_x % N; 
+            //int img_y = tid_x / N;
             int x = tid_x % N - cN / 2 + i % cN;
             int y = tid_x / N - cN / 2 + i / cN;
             int thr_x = -5;
