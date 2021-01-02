@@ -56,8 +56,9 @@ namespace cuda_convolution_UI
             try
             {
                 OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = "Изображения | *.jpg; *.png; *.jpeg; *.bmp | Все файлы | *.*";
 
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     pbOriginal.ImageLocation = dialog.FileName;
                 }
@@ -203,7 +204,7 @@ namespace cuda_convolution_UI
         {
             lblPreLoading.Width = pbOriginal.Width = this.Width / 2 - 40;
             pbOriginal.Height = this.Height - 120 - panel1.Height;
-            lblLoading.Left = pbResault.Left = this.Width / 2 + 20;
+            btn_Save.Left = lblLoading.Left = pbResault.Left = this.Width / 2 + 20;
             lblLoading.Width =  pbResault.Width = this.Width / 2 - 40;
             pbResault.Height = this.Height - 120 - panel1.Height;
             
@@ -261,9 +262,22 @@ namespace cuda_convolution_UI
             //img.Dispose();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btn_Save_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "Изображения | *.jpg; *.png; *.jpeg; *.bmp | Все файлы | *.*";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    pbResault.Image.Save(dialog.FileName);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Not load image", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
     /// <summary>
@@ -295,14 +309,12 @@ namespace cuda_convolution_UI
         }
         public void SetPixel(int x, int y, Color color)
         {
-            int ind = x + (y * width);
-            bits[ind] = color.ToArgb();
+            bits[x + (y * width)] = color.ToArgb();
 
         }
         public Color GetPixel(int x, int y)
         {
-            int ind = x + (y * width);
-            return Color.FromArgb(bits[ind]);
+            return Color.FromArgb(bits[x + (y * width)]);
         }
     }
 }

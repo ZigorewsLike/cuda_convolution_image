@@ -45,6 +45,7 @@ namespace cuda_convolution_UI
             this.btnAply = new System.Windows.Forms.Button();
             this.lblLoading = new System.Windows.Forms.Label();
             this.lblPreLoading = new System.Windows.Forms.Label();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.stFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbResault)).BeginInit();
@@ -214,11 +215,22 @@ namespace cuda_convolution_UI
             this.lblPreLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblPreLoading.Visible = false;
             // 
+            // btn_Save
+            // 
+            this.btn_Save.Location = new System.Drawing.Point(502, 0);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(160, 29);
+            this.btn_Save.TabIndex = 14;
+            this.btn_Save.Text = "Сохранить как ...";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 779);
+            this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.lblPreLoading);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnAply);
@@ -264,6 +276,7 @@ namespace cuda_convolution_UI
         private System.Windows.Forms.Button btnAply;
         private System.Windows.Forms.Label lblLoading;
         private System.Windows.Forms.Label lblPreLoading;
+        private System.Windows.Forms.Button btn_Save;
     }
 }
 
