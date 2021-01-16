@@ -18,14 +18,14 @@ namespace cuda_convolution_UI
     {
         [DllImport("cudaFanc64.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
         public static extern int getCudaDev();
-        [DllImport("cudaFanc64.dll", CharSet = CharSet.Ansi, SetLastError = true, CallingConvention = CallingConvention.StdCall)]
+        [DllImport("cudaFanc64.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr calcConvolutionCuda(int N, int M, IntPtr img, IntPtr conv, int cN);
 
         private int image_width;
         private int image_height;
         private List<NumericUpDown> numud_list = new List<NumericUpDown>();
-        private const int default_cach = 144;
-        private int cache_size = default_cach;
+        private int default_cach = 144;
+        private int cache_size = 144;
         public ImagePix unlock_img = new ImagePix(1, 1);
         public Form1()
         {
@@ -108,8 +108,20 @@ namespace cuda_convolution_UI
                             IntPtr pointer_conv = handle_conv.AddrOfPinnedObject();
                             //MessageBox.Show("Pointer is writed");
 
-                            IntPtr c = calcConvolutionCuda(cache_size, cache_size, pointer_img, pointer_conv, (int)Math.Sqrt(conv_array.Length));
+                            //IntPtr c = calcConvolutionCuda(cache_size, cache_size, pointer_img, pointer_conv, (int)Math.Sqrt(conv_array.Length));
                             int[] res = new int[cache_size * cache_size];
+                            IntPtr c;
+                            try
+                            {
+                                //Console.WriteLine("FUNCTION RUN");
+                                c = calcConvolutionCuda(cache_size, cache_size, pointer_img, pointer_conv, (int)Math.Sqrt(conv_array.Length));
+                                //c = calcConvolutionCuda(cache_size, cache_size, img_array, conv_array, (int)Math.Sqrt(conv_array.Length));
+                            }catch(System.AccessViolationException e)
+                            {
+                                Console.WriteLine(e.Message);
+                                return null;
+                            }
+                            
                             Marshal.Copy(c, res, 0, cache_size * cache_size);
                             for (int i = (new_width - 1) / cache_size * cache_size; i < new_width; i++)
                             {
@@ -334,6 +346,11 @@ namespace cuda_convolution_UI
                     this.panel1.Controls.Add(numbUD);
                 }
             }
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            cache_size = default_cach = (int)numericUpDown1.Value;
         }
     }
     /// <summary>

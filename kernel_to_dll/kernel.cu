@@ -6,6 +6,8 @@
 #include <chrono>
 
 #define DELLEXPORT extern "C" __declspec(dllexport)
+#pragma comment(linker, "/STACK:2000000")
+#pragma comment(linker, "/HEAP:2000000")
 
 using namespace std;
 using namespace std::chrono;
@@ -51,7 +53,7 @@ __global__ void add_vector(unsigned int* img, int* conv, unsigned int* c, int N,
 DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, int* conv, int cN) {
     int cuda_count;
     cudaGetDeviceCount(&cuda_count);
-    //printf("Cuda device count = %i\n", cuda_count);
+    //printf("\n ---------------------- \nCuda device count = %i\n", cuda_count);
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
@@ -72,22 +74,32 @@ DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, in
     }
     unsigned int maxCudaBlocks = (N * M + maxCudaTreads - 1) / maxCudaTreads;
 
+    //printf("Init %i \n", img[0]);
+
     //printf("N = %i M = %i\n threads: %i blocks: %i\n", N, M, maxCudaTreads, maxCudaBlocks);
 
     unsigned int* dev_a;
     int* dev_b;
     unsigned int* dev_c;
 
+    //printf("CudaMalloc \n");
+
     cudaMalloc((void**)&dev_a, N * M * sizeof(unsigned int));
     cudaMalloc((void**)&dev_b, N * M * sizeof(int));
     cudaMalloc((void**)&dev_c, N * M * sizeof(unsigned int));
+
+    //printf("CudaMemcpy \n");
 
     handleCudaError(cudaMemcpy(dev_a, img, N * M * sizeof(unsigned int), cudaMemcpyHostToDevice));
     handleCudaError(cudaMemcpy(dev_b, conv, N * M * sizeof(int), cudaMemcpyHostToDevice));
 
     cudaEventRecord(start, 0);
 
+    //printf("Cuda run \n");
+
     add_vector << < maxCudaTreads, maxCudaBlocks >> > (dev_a, dev_b, dev_c, N, M, cN);
+
+    //printf("cudaMemcpy \n");
 
     cudaEventRecord(stop, 0);
     cudaEventSynchronize(stop);
@@ -100,6 +112,8 @@ DELLEXPORT unsigned int* calcConvolutionCuda(int N, int M, unsigned int* img, in
     cudaFree(dev_a);
     cudaFree(dev_b);
     cudaFree(dev_c);
+
+    //printf("OK \n");
 
     //printf(" time (gpu)= %f mm.\n Calc %i elem\n", g_time, N * M);
     return c;

@@ -40,6 +40,7 @@ namespace cuda_convolution_UI
             this.pbResault = new System.Windows.Forms.PictureBox();
             this.lblImgWidth = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnClear = new System.Windows.Forms.Button();
             this.nudConvSize = new System.Windows.Forms.NumericUpDown();
             this.lblform = new System.Windows.Forms.Label();
             this.btnAply = new System.Windows.Forms.Button();
@@ -53,13 +54,15 @@ namespace cuda_convolution_UI
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.lblExample1 = new System.Windows.Forms.LinkLabel();
             this.lblExampleLabel = new System.Windows.Forms.Label();
-            this.btnClear = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.stFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbResault)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudConvSize)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // stFooter
@@ -157,6 +160,16 @@ namespace cuda_convolution_UI
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(609, 268);
             this.panel1.TabIndex = 8;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(242, 1);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 11;
+            this.btnClear.Text = "Отчистить";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // nudConvSize
             // 
@@ -322,21 +335,40 @@ namespace cuda_convolution_UI
             this.lblExampleLabel.TabIndex = 0;
             this.lblExampleLabel.Text = "Примеры";
             // 
-            // btnClear
+            // numericUpDown1
             // 
-            this.btnClear.Location = new System.Drawing.Point(242, 1);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 11;
-            this.btnClear.Text = "Отчистить";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.numericUpDown1.Location = new System.Drawing.Point(396, 5);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(64, 20);
+            this.numericUpDown1.TabIndex = 16;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            144,
+            0,
+            0,
+            0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(351, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "cache =";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 779);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.lblPreLoading);
@@ -363,6 +395,7 @@ namespace cuda_convolution_UI
             ((System.ComponentModel.ISupportInitialize)(this.nudConvSize)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,6 +428,8 @@ namespace cuda_convolution_UI
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label1;
     }
 }
 
