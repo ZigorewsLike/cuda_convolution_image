@@ -83,12 +83,10 @@ namespace cuda_convolution_UI
             {
                 for (int new_height = cache_size; new_height < image_height + cache_size - 1; new_height += cache_size)
                 {
-                    //MessageBox.Show("H:" + new_height.ToString());
                     if (new_height > image_height) new_height = image_height;
                     for (int new_width = cache_size; new_width < image_width + cache_size - 1; new_width += cache_size)
                     {
                         if (new_width > image_width) new_width = image_width;
-                        //MessageBox.Show(new_width.ToString());
                         int[] img_array = new int[cache_size * cache_size];
 
                         for (int i = new_width - cache_size; i < new_width; i++)
@@ -106,16 +104,11 @@ namespace cuda_convolution_UI
                         {
                             IntPtr pointer_img = handle_image.AddrOfPinnedObject();
                             IntPtr pointer_conv = handle_conv.AddrOfPinnedObject();
-                            //MessageBox.Show("Pointer is writed");
-
-                            //IntPtr c = calcConvolutionCuda(cache_size, cache_size, pointer_img, pointer_conv, (int)Math.Sqrt(conv_array.Length));
                             int[] res = new int[cache_size * cache_size];
                             IntPtr c;
                             try
                             {
-                                //Console.WriteLine("FUNCTION RUN");
                                 c = calcConvolutionCuda(cache_size, cache_size, pointer_img, pointer_conv, (int)Math.Sqrt(conv_array.Length));
-                                //c = calcConvolutionCuda(cache_size, cache_size, img_array, conv_array, (int)Math.Sqrt(conv_array.Length));
                             }catch(System.AccessViolationException e)
                             {
                                 Console.WriteLine(e.Message);
@@ -310,7 +303,6 @@ namespace cuda_convolution_UI
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //generate_conv(new int[25] { 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 });
             generate_conv(new int[25] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 });
         }
 
